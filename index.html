@@ -6,8 +6,10 @@
 <title>Simple Keypad Lock</title>
 <style>
   body, html {
-    margin:0; padding:0; height:100%; background:#888;
-    display:flex; justify-content:center; align-items:center; font-family:sans-serif;
+    margin:0; padding:0; height:100%;
+    background:#888;
+    display:flex; justify-content:center; align-items:center;
+    font-family:sans-serif;
   }
   .container {
     background:#ccc; border-radius:12px; padding:20px; width:320px;
@@ -31,17 +33,10 @@
   button:active {
     background:#bbb;
   }
-  .options {
-    display:none; flex-direction: column; width: 100%; gap: 10px;
-  }
-  .option {
-    background:#bbb; padding:12px; border-radius:8px; text-align:center;
-    cursor:pointer;
-  }
 </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="container">
     <div class="display" id="display">----</div>
     <div class="keypad" id="keypad">
       <button>1</button><button>2</button><button>3</button>
@@ -49,17 +44,12 @@
       <button>7</button><button>8</button><button>9</button>
       <button id="del">⌫</button><button>0</button><button id="enter">⏎</button>
     </div>
-    <div class="options" id="options">
-      <div class="option" data-duration="15 minutes">Open for 15 minutes</div>
-      <div class="option" data-duration="1 hour">Open for 1 hour</div>
-      <div class="option" data-duration="all day">Open for the day</div>
-    </div>
   </div>
 
 <script>
   const display = document.getElementById('display');
   const keypad = document.getElementById('keypad');
-  const options = document.getElementById('options');
+  const container = document.getElementById('container');
   let code = '';
 
   function updateDisplay() {
@@ -77,8 +67,9 @@
     }
     if (btn.id === 'enter') {
       if (code.length === 4) {
-        keypad.style.display = 'none';
-        options.style.display = 'flex';
+        // Replace everything with plain gray screen
+        container.innerHTML = '';
+        document.body.style.background = '#888'; // Gray background stays
       }
       return;
     }
@@ -87,13 +78,6 @@
       code += btn.textContent;
       updateDisplay();
     }
-  });
-
-  options.addEventListener('click', e => {
-    const opt = e.target.closest('.option');
-    if (!opt) return;
-    alert(`Code entered: ${code}\nDuration selected: ${opt.dataset.duration}`);
-    // You can add additional logic here if needed.
   });
 
   updateDisplay();
