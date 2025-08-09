@@ -101,7 +101,7 @@
       <button>1</button><button>2</button><button>3</button>
       <button>4</button><button>5</button><button>6</button>
       <button>7</button><button>8</button><button>9</button>
-      <button id="del">⌫</button><button>0</button><button id="enter">⏎</button>
+      <button id="del">⌫</button><button id="enter">⏎</button>
     </div>
     <div id="options">
       <div class="option" data-duration="15">Open for 15 minutes</div>
@@ -143,7 +143,7 @@
       return;
     }
 
-    if (/^\d$/.test(btn.textContent)) { // Allow digits 0-9
+    if (/^[1-9]$/.test(btn.textContent)) { // Only digits 1-9 allowed
       if (code.length < 4) {
         code += btn.textContent;
         updateDisplay();
@@ -157,6 +157,7 @@
 
     options.style.display = 'none';
 
+    // Show "Unlocked" button
     const unlockBtn = document.createElement('button');
     unlockBtn.id = 'unlocked-button';
     unlockBtn.textContent = 'Unlocked';
