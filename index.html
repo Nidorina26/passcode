@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Simple Keypad Lock</title>
+<title>Keypad with Duration Options</title>
 <style>
   body, html {
     margin:0; padding:0; height:100%;
@@ -33,6 +33,13 @@
   button:active {
     background:#bbb;
   }
+  .options {
+    display:none; flex-direction: column; width: 100%; gap: 10px;
+  }
+  .option {
+    background:#bbb; padding:12px; border-radius:8px; text-align:center;
+    cursor:pointer;
+  }
 </style>
 </head>
 <body>
@@ -44,11 +51,17 @@
       <button>7</button><button>8</button><button>9</button>
       <button id="del">⌫</button><button>0</button><button id="enter">⏎</button>
     </div>
+    <div class="options" id="options">
+      <div class="option" data-duration="15 minutes">Open for 15 minutes</div>
+      <div class="option" data-duration="1 hour">Open for 1 hour</div>
+      <div class="option" data-duration="all day">Open for the day</div>
+    </div>
   </div>
 
 <script>
   const display = document.getElementById('display');
   const keypad = document.getElementById('keypad');
+  const options = document.getElementById('options');
   const container = document.getElementById('container');
   let code = '';
 
@@ -67,9 +80,10 @@
     }
     if (btn.id === 'enter') {
       if (code.length === 4) {
-        // Replace everything with plain gray screen
-        container.innerHTML = '';
-        document.body.style.background = '#888'; // Gray background stays
+        // Hide keypad & display, show options
+        keypad.style.display = 'none';
+        display.style.display = 'none';
+        options.style.display = 'flex';
       }
       return;
     }
@@ -78,6 +92,14 @@
       code += btn.textContent;
       updateDisplay();
     }
+  });
+
+  options.addEventListener('click', e => {
+    const opt = e.target.closest('.option');
+    if (!opt) return;
+    // Immediately replace with gray screen
+    container.innerHTML = '';
+    document.body.style.background = '#888'; // keep gray background
   });
 
   updateDisplay();
