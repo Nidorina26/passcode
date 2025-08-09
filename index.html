@@ -40,6 +40,12 @@
     background:#bbb; padding:12px; border-radius:8px; text-align:center;
     cursor:pointer;
   }
+  .unlocked-message {
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    user-select:none;
+  }
 </style>
 </head>
 <body>
@@ -80,7 +86,6 @@
     }
     if (btn.id === 'enter') {
       if (code.length === 4) {
-        // Hide display and keypad, show options
         display.style.display = 'none';
         keypad.style.display = 'none';
         options.style.display = 'flex';
@@ -97,8 +102,13 @@
   options.addEventListener('click', e => {
     const opt = e.target.closest('.option');
     if (!opt) return;
-    // Instantly clear everything and keep gray background
+
+    // Clear container, keep gray background, show "Unlocked"
     container.innerHTML = '';
+    const message = document.createElement('div');
+    message.className = 'unlocked-message';
+    message.textContent = 'Unlocked';
+    container.appendChild(message);
     document.body.style.background = '#888';
   });
 
