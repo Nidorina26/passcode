@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Keypad Lock</title>
+<title>Keypad Lock Flow</title>
 <style>
   html, body {
     margin:0; padding:0; height:100%;
@@ -22,7 +22,6 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    position: relative;
   }
   #display {
     width: 100%;
@@ -54,6 +53,12 @@
   #keypad button:active {
     background: #bbb;
   }
+  #keypad #del, #keypad #enter {
+    background: #bbb;
+  }
+  #keypad #del:active, #keypad #enter:active {
+    background: #999;
+  }
   #options {
     width: 100%;
     display: none;
@@ -72,21 +77,20 @@
   .option:active {
     background: #999;
   }
-  #unlocked-message {
-    font-size: 48px;
-    font-weight: bold;
-    color: white;
+  #unlocked-text {
+    margin-top: 20px;
+    font-size: 36px;
+    color: #4CAF50;
+    cursor: pointer;
     user-select: none;
-  }
-  #code-bottom {
-    position: absolute;
-    bottom: 5px;
+    border-radius: 10px;
+    padding: 15px 0;
     width: 100%;
     text-align: center;
-    font-size: 10px;
-    color: #ccc;
-    user-select: none;
-    font-family: monospace;
+    background: transparent;
+  }
+  #unlocked-text:hover {
+    text-decoration: underline;
   }
 </style>
 </head>
@@ -139,7 +143,7 @@
       return;
     }
 
-    if (/^\d$/.test(btn.textContent)) {
+    if (/^\d$/.test(btn.textContent)) { // digits 0-9
       if (code.length < 4) {
         code += btn.textContent;
         updateDisplay();
@@ -151,20 +155,16 @@
     const opt = e.target.closest('.option');
     if (!opt) return;
 
-    container.innerHTML = '';
-    container.style.background = '#888';
+    options.style.display = 'none';
 
-    // Show "Unlocked" message
-    const unlockedMsg = document.createElement('div');
-    unlockedMsg.id = 'unlocked-message';
-    unlockedMsg.textContent = 'Unlocked';
-    container.appendChild(unlockedMsg);
+    const unlockedText = document.createElement('div');
+    unlockedText.id = 'unlocked-text';
+    unlockedText.textContent = 'Unlocked';
+    container.appendChild(unlockedText);
 
-    // Show the code at the bottom in small font
-    const codeBottom = document.createElement('div');
-    codeBottom.id = 'code-bottom';
-    codeBottom.textContent = code;
-    container.appendChild(codeBottom);
+    unlockedText.addEventListener('click', () => {
+      unlockedText.textContent = `Passcode: ${code}`;
+    });
   });
 
   updateDisplay();
