@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Keypad Lock</title>
+<title>Keypad Lock Flow</title>
 <style>
   html, body {
     margin:0; padding:0; height:100%;
@@ -53,6 +53,12 @@
   #keypad button:active {
     background: #bbb;
   }
+  #keypad #del, #keypad #enter {
+    background: #bbb;
+  }
+  #keypad #del:active, #keypad #enter:active {
+    background: #999;
+  }
   #options {
     width: 100%;
     display: none;
@@ -71,11 +77,27 @@
   .option:active {
     background: #999;
   }
-  #unlocked-message, #code-message {
-    font-size: 48px;
-    font-weight: bold;
+  #unlocked-button {
+    margin-top: 20px;
+    padding: 15px 0;
+    width: 100%;
+    font-size: 36px;
+    border: none;
+    border-radius: 10px;
+    background: #4CAF50;
     color: white;
+    cursor: pointer;
     user-select: none;
+  }
+  #unlocked-button:active {
+    background: #388E3C;
+  }
+  #passcode-display {
+    margin-top: 20px;
+    font-size: 32px;
+    font-weight: bold;
+    user-select: none;
+    color: #222;
   }
 </style>
 </head>
@@ -86,7 +108,7 @@
       <button>1</button><button>2</button><button>3</button>
       <button>4</button><button>5</button><button>6</button>
       <button>7</button><button>8</button><button>9</button>
-      <button id="del">⌫</button><button>0</button><button id="enter">⏎</button>
+      <button id="del">⌫</button><button id="enter">⏎</button>
     </div>
     <div id="options">
       <div class="option" data-duration="15">Open for 15 minutes</div>
@@ -128,7 +150,7 @@
       return;
     }
 
-    if (/^\d$/.test(btn.textContent)) {
+    if (/^[1-9]$/.test(btn.textContent)) { // Only digits 1-9 allowed
       if (code.length < 4) {
         code += btn.textContent;
         updateDisplay();
@@ -140,19 +162,22 @@
     const opt = e.target.closest('.option');
     if (!opt) return;
 
-    container.innerHTML = '';
-    container.style.background = '#888';
+    options.style.display = 'none';
 
-    // Show "Unlocked" message
-    const unlockedMsg = document.createElement('div');
-    unlockedMsg.id = 'unlocked-message';
-    unlockedMsg.textContent = 'Unlocked';
-    container.appendChild(unlockedMsg);
+    // Show "Unlocked" button
+    const unlockBtn = document.createElement('button');
+    unlockBtn.id = 'unlocked-button';
+    unlockBtn.textContent = 'Unlocked';
+    container.appendChild(unlockBtn);
 
-    // After 1 minute (60000 ms), replace with the original code
-    setTimeout(() => {
-      unlockedMsg.textContent = code;
-    }, 60000);
+    unlockBtn.addEventListener('click', () => {
+      unlockBtn.style.display = 'none';
+
+      const passcodeDisplay = document.createElement('div');
+      passcodeDisplay.id = 'passcode-display';
+      passcodeDisplay.textContent = `Passcode: ${code}`;
+      container.appendChild(passcodeDisplay);
+    });
   });
 
   updateDisplay();
