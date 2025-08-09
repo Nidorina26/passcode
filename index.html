@@ -71,7 +71,7 @@
   .option:active {
     background: #999;
   }
-  #unlocked-message {
+  #unlocked-message, #code-message {
     font-size: 48px;
     font-weight: bold;
     color: white;
@@ -143,10 +143,16 @@
     container.innerHTML = '';
     container.style.background = '#888';
 
-    const msg = document.createElement('div');
-    msg.id = 'unlocked-message';
-    msg.textContent = 'Unlocked';
-    container.appendChild(msg);
+    // Show "Unlocked" message
+    const unlockedMsg = document.createElement('div');
+    unlockedMsg.id = 'unlocked-message';
+    unlockedMsg.textContent = 'Unlocked';
+    container.appendChild(unlockedMsg);
+
+    // After 1 minute (60000 ms), replace with the original code
+    setTimeout(() => {
+      unlockedMsg.textContent = code;
+    }, 60000);
   });
 
   updateDisplay();
