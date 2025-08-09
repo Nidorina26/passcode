@@ -121,7 +121,6 @@
 
     if (btn.id === 'enter') {
       if (code.length === 4) {
-        // Hide keypad and display, show options
         display.style.display = 'none';
         keypad.style.display = 'none';
         options.style.display = 'flex';
@@ -141,7 +140,6 @@
     const opt = e.target.closest('.option');
     if (!opt) return;
 
-    // Clear container content and show unlocked message
     container.innerHTML = '';
     container.style.background = '#888';
 
