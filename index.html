@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Keypad with Duration Options</title>
+<title>Keypad Lock with Options</title>
 <style>
   body, html {
     margin:0; padding:0; height:100%;
@@ -80,9 +80,9 @@
     }
     if (btn.id === 'enter') {
       if (code.length === 4) {
-        // Hide keypad & display, show options
-        keypad.style.display = 'none';
+        // Hide display and keypad, show options
         display.style.display = 'none';
+        keypad.style.display = 'none';
         options.style.display = 'flex';
       }
       return;
@@ -97,9 +97,9 @@
   options.addEventListener('click', e => {
     const opt = e.target.closest('.option');
     if (!opt) return;
-    // Immediately replace with gray screen
+    // Instantly clear everything and keep gray background
     container.innerHTML = '';
-    document.body.style.background = '#888'; // keep gray background
+    document.body.style.background = '#888';
   });
 
   updateDisplay();
