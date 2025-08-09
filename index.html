@@ -83,14 +83,13 @@
     color: #4CAF50;
     cursor: pointer;
     user-select: none;
-    border-radius: 10px;
-    padding: 15px 0;
-    width: 100%;
-    text-align: center;
     background: transparent;
+    border: none;
+    text-align: center;
+    /* No underline by default */
   }
   #unlocked-text:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* subtle hint it’s clickable */
   }
 </style>
 </head>
@@ -143,7 +142,7 @@
       return;
     }
 
-    if (/^\d$/.test(btn.textContent)) { // digits 0-9
+    if (/^\d$/.test(btn.textContent)) {
       if (code.length < 4) {
         code += btn.textContent;
         updateDisplay();
