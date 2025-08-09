@@ -92,13 +92,6 @@
   #unlocked-button:active {
     background: #388E3C;
   }
-  #passcode-display {
-    margin-top: 20px;
-    font-size: 32px;
-    font-weight: bold;
-    user-select: none;
-    color: #222;
-  }
 </style>
 </head>
 <body>
@@ -171,12 +164,7 @@
     container.appendChild(unlockBtn);
 
     unlockBtn.addEventListener('click', () => {
-      unlockBtn.style.display = 'none';
-
-      const passcodeDisplay = document.createElement('div');
-      passcodeDisplay.id = 'passcode-display';
-      passcodeDisplay.textContent = `Passcode: ${code}`;
-      container.appendChild(passcodeDisplay);
+      unlockBtn.textContent = `Passcode: ${code}`;
     });
   });
 
